@@ -52,6 +52,9 @@ func main() {
 	fmt.Printf("- URL: %s\n\n", config.URL)
 
 	client := &http.Client{}
+	client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+		return http.ErrUseLastResponse
+	}
 	client.Timeout = time.Duration(config.Timeout) * time.Second
 
 	tasksList := []tasks.Task{}
